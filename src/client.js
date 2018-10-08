@@ -64,6 +64,10 @@ const handled$ = U.thru(
   commands$,
   U.flatMapLatest(R.unless(commandIsValid, K.constantError)),
   U.flatMapLatest(cmd => L.set('handler', Handler[cmd.command], cmd)),
+  U.flatMapErrors(R.compose(
+    K.constantError,
+    R.assoc('error', new Error('No suitable handler found for command.')),
+  )),
 );
 
 // Activation

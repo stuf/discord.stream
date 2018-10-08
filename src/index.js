@@ -25,6 +25,8 @@ const done$ = U.combine(
 
 //
 
-clientStarted$.onValue(() => logger.log('info', 'Discord client successfully connected'));
-dbStarted$.onValue(() => logger.log('info', 'MongoDB connection successfully opened'));
-done$.onValue(() => logger.log('info', 'Bot ready'));
+Client.properties.handled$.log('handled');
+
+clientStarted$.take(1).onValue(() => logger.log('info', 'Discord client successfully connected'));
+dbStarted$.take(1).onValue(() => logger.log('info', 'MongoDB connection successfully opened'));
+done$.take(1).onValue(() => logger.log('info', 'Bot ready'));
