@@ -84,7 +84,7 @@ module.exports.properties = {
   state$,
 };
 
-module.exports.start = (token) => {
+module.exports.start = token => {
   logger.log('info', 'Connecting to the Discord API');
   connect(token, client);
 
