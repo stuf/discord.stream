@@ -6,6 +6,8 @@ const L = require('partial.lenses');
 
 const logger = require('./logger');
 const M = require('./meta');
+const Handler = require('./handlers');
+const { mkError } = require('./shared');
 
 //
 
@@ -19,11 +21,6 @@ const events = [
   'message',
   'ready',
 ];
-
-// Handlers
-
-// @todo Fixme
-const Handler = {};
 
 // Functions
 
@@ -67,7 +64,7 @@ const handled$ = U.thru(
   U.flatMapLatest(cmd => L.set('handler', Handler[cmd.command], cmd)),
   U.flatMapErrors(R.compose(
     K.constantError,
-    R.assoc('error', new Error('No suitable handler found for command.')),
+    R.assoc('error', mkError('No suitable handler found for command.')),
   )),
 );
 
