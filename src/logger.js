@@ -7,7 +7,7 @@ const levels = {
   info: 2,
   verbose: 3,
   debug: 4,
-  silly: 5
+  silly: 5,
 };
 
 const logAsLine = printf(info =>
@@ -19,13 +19,13 @@ module.exports = createLogger({
     new transports.Console({
       json: true,
       colorize: true,
-      format: combine(timestamp(), colorize(), logAsLine)
+      format: combine(timestamp(), colorize(), logAsLine),
     }),
     new transports.File({
       filename: 'combined.log',
       colorize: false,
       format: combine(timestamp(), json()),
-    })
+    }),
   ],
   exceptionHandlers: [
     new transports.File({ filename: 'exceptions.log' }),

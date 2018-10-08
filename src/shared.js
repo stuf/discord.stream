@@ -6,8 +6,7 @@ const K = require('kefir');
 const isProperty = R.is(K.Property);
 const isStream = R.is(K.Stream);
 const isObservable = R.is(K.Observable);
-
-const isObservableAnd = x => R.both(isObservable, x);
+const isObservableAnd = R.both(isObservable);
 
 //
 
