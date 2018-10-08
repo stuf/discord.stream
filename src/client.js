@@ -7,7 +7,7 @@ const L = require('partial.lenses');
 const logger = require('./logger');
 const M = require('./meta');
 const Handler = require('./handlers');
-const { mkError } = require('./shared');
+const { mkError1, construct0, invoke1 } = require('./shared');
 
 //
 
@@ -36,10 +36,15 @@ const commandIsValid = R.compose(
   R.prop('command'),
 );
 
+const addPayloadError = R.compose(
+  K.constantError,
+  R.assoc('error', mkError1('No suitable handler found for command.')),
+);
+
 //
 
-const getClient = R.constructN(0, Client);
-const connect = R.invoker(1, 'login');
+const getClient = construct0(Client);
+const connect = invoke1('login');
 
 const client = getClient();
 
@@ -51,10 +56,11 @@ const ready$ = K.fromEvents(client, 'ready').toProperty();
 const _events$ =
   R.map(ev => K.fromEvents(client, ev).map(payload => ({ payload, ev })), events);
 
-const state$ =
-  U.thru(U.parallel(_events$),
-         U.toProperty,
-         U.skipUnless(R.identity));
+const state$ = U.thru(
+  U.parallel(_events$),
+  U.toProperty,
+  U.skipUnless(R.identity),
+);
 
 const commands$ = getCommands(message$);
 
@@ -62,10 +68,7 @@ const handled$ = U.thru(
   commands$,
   U.flatMapLatest(R.unless(commandIsValid, K.constantError)),
   U.flatMapLatest(cmd => L.set('handler', Handler[cmd.command], cmd)),
-  U.flatMapErrors(R.compose(
-    K.constantError,
-    R.assoc('error', mkError('No suitable handler found for command.')),
-  )),
+  U.flatMapErrors(addPayloadError),
 );
 
 // Activation
@@ -73,8 +76,6 @@ const handled$ = U.thru(
 handled$.onValue(v => logger.log('info', `Handled command \`${v.command}\``));
 
 // Methods
-
-// @todo fixme
 
 //
 
