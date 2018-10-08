@@ -7,12 +7,9 @@ const logger = require('./logger');
 
 // Database
 
-const _database = U.bus();
-const database$ = U.thru(
-  _database,
-  U.toProperty,
-  U.skipUnless(R.identity),
-);
+const _database = U.variable();
+
+const database$ = U.skipUnless(R.identity, U.toProperty(_database));
 
 // Constants
 
@@ -51,7 +48,7 @@ module.exports.start = url => {
   try {
     mongoose.connect(url, { useNewUrlParser: true });
 
-    _database.push(mongoose.connection);
+    _database.set(mongoose.connection);
   }
   catch (err) {
     logger.log('error', 'Error trying connect to database');
