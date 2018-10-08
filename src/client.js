@@ -75,6 +75,10 @@ const handled$ = U.thru(
 
 handled$.onValue(v => logger.log('info', `Handled command \`${v.command}\``));
 
+// Methods
+
+// @todo fixme
+
 //
 
 module.exports.instance = {
@@ -88,6 +92,8 @@ module.exports.properties = {
   handled$,
   state$,
 };
+
+module.exports.methods = {};
 
 module.exports.start = token => {
   logger.log('info', 'Connecting to the Discord API');
