@@ -1,0 +1,35 @@
+{
+  "name": "discord.stream",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon start.js",
+    "debug": "nodemon --inspect start.js",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.0.0",
+    "karet": "^4.0.1",
+    "karet.util": "^0.19.0",
+    "karet.xhr": "^0.6.7",
+    "kefir": "^3.8.5",
+    "mongoose": "^5.3.2",
+    "nodemon": "^1.18.4",
+    "partial.lenses": "^14.10.0",
+    "ramda": "^0.25.0",
+    "react": "^16.5.2",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "eslint": "^5.6.1"
+  },
+  "optionalDependencies": {
+    "@types/kefir": "^3.7.0",
+    "@types/mongoose": "^5.2.18",
+    "@types/ramda": "^0.25.39",
+    "@types/winston": "^2.4.4"
+  }
+}
