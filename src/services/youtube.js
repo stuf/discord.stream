@@ -19,7 +19,7 @@ const createParams = R.compose(
 const getVideoJson =
   U.flatMapLatest(x => K.fromPromise(axios.get(endpoint, createParams(x))));
 
-module.exports = {
+module.exports.methods = {
   getVideoJson,
 };
 

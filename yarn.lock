@@ -2948,6 +2948,13 @@ parse-ms@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parse-ms/-/parse-ms-1.0.1.tgz#56346d4749d78f23430ca0c713850aef91aa361d"
 
+partial.lenses.validation@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/partial.lenses.validation/-/partial.lenses.validation-2.0.0.tgz#9b518b58a9c2281f375d5e4a5b63464daa3213a2"
+  dependencies:
+    infestines "^0.4.10"
+    partial.lenses "^14.0.0"
+
 partial.lenses@>=2.2.0, partial.lenses@^14.0.0, partial.lenses@^14.10.0:
   version "14.10.0"
   resolved "https://registry.yarnpkg.com/partial.lenses/-/partial.lenses-14.10.0.tgz#81f1fe8a094470407817adff5466f8f642309e45"
