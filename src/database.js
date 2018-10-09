@@ -52,6 +52,7 @@ module.exports.start = url => {
   }
   catch (err) {
     logger.log('error', 'Error trying connect to database');
+    return K.constantError(err);
   }
 
   return database$;

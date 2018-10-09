@@ -7,6 +7,7 @@ Add the following variables to the file `.env`.
 
 ```sh
 DISCORD_TOKEN=
-DISCORD_COMMAND_PREFIX=
+DISCORD_COMMAND_PREFIX=!
 GOOGLE_KEY=
+MONGODB_URL=mongodb://host:port/database
 ```

@@ -28,3 +28,13 @@ const done$ = U.combine(
 clientStarted$.take(1).onValue(() => logger.log('info', 'Discord client successfully connected'));
 dbStarted$.take(1).onValue(() => logger.log('info', 'MongoDB connection successfully opened'));
 done$.take(1).onValue(() => logger.log('info', 'Bot ready'));
+
+U.thru(
+  [clientStarted$, dbStarted$],
+  U.parallel,
+  U.takeFirstErrors(1),
+).onError(err => {
+  logger.log('error', 'Errored');
+  console.error(err);
+  process.exit(1);
+});

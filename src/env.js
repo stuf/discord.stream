@@ -15,6 +15,9 @@ const envRules = V.propsOr(V.remove, {
   GOOGLE_KEY: V.and(
     isRequired,
   ),
+  MONGODB_URL: V.and(
+    isRequired,
+  ),
 });
 
 V.validate(envRules, process.env);
