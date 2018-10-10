@@ -21,6 +21,8 @@
     "partial.lenses.validation": "^2.0.0",
     "ramda": "^0.25.0",
     "react": "^16.5.2",
+    "sanctuary": "^0.15.0",
+    "sanctuary-def": "^0.18.1",
     "winston": "^3.1.0"
   },
   "devDependencies": {

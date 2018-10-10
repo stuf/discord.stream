@@ -22,10 +22,7 @@ const envRules = V.propsOr(V.remove, {
   DISCORD_TOKEN: V.and(
     isRequired,
   ),
-  DISCORD_COMMAND_PREFIX: V.and(
-    isRequired,
-    isPrefixValidLength,
-  ),
+  DISCORD_COMMAND_PREFIX: isRequired,
   GOOGLE_KEY: isRequired,
   MONGODB_URL: V.and(
     isRequired,

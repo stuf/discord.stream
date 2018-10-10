@@ -7,7 +7,7 @@ const L = require('partial.lenses');
 const logger = require('./logger');
 const M = require('./meta');
 const Handler = require('./handlers');
-const { mkError1, construct0, invoke1 } = require('./shared');
+const { show, showWith, B, mkError1, construct0, invoke1 } = require('./shared');
 
 //
 
@@ -28,7 +28,7 @@ const isPropCommand = R.propSatisfies(R.startsWith(DISCORD_COMMAND_PREFIX));
 
 const getCommands = U.through(
   U.skipUnless(isPropCommand('content')),
-  U.mapValue(L.get(M.Discord.commandL)),
+  U.mapValue(L.get(M.Discord.transformMessageL)),
 );
 
 const commandIsValid = R.compose(
@@ -40,6 +40,18 @@ const addPayloadError = R.compose(
   K.constantError,
   R.assoc('error', mkError1('No suitable handler found for command.')),
 );
+
+const handleCommandPayload = R.compose(
+  R.apply(R.apply),
+  B.bimap(
+    R.prop('handler'),
+    R.props(['command', 'args', 'message']),
+  ),
+  B.toBi,
+);
+
+const createHandledResponse = (command, payload) => ({ command, payload });
+const createHandledError = (command, error) => ({ command, error });
 
 //
 
@@ -64,16 +76,43 @@ const state$ = U.thru(
 
 const commands$ = getCommands(message$);
 
-const handled$ = U.thru(
+const handler$ = U.thru(
   commands$,
   U.flatMapLatest(R.unless(commandIsValid, K.constantError)),
   U.flatMapLatest(cmd => L.set('handler', Handler[cmd.command], cmd)),
   U.flatMapErrors(addPayloadError),
 );
 
+const handled$ = U.thru(
+  handler$,
+  U.skipUnless(R.identity),
+  U.flatMapLatest(x => {
+    const fnRes = handleCommandPayload(x);
+    const resFn = U.lift(
+      fnRes instanceof Error
+      ? createHandledError
+      : createHandledResponse
+    );
+
+    return resFn(x.command, fnRes);
+  }),
+);
+
 // Activation
 
-handled$.onValue(v => logger.log('info', `Handled command \`${v.command}\``));
+commands$.onValue(v =>
+  logger.log('info', `Got command object: ${JSON.stringify(R.dissoc('message', v))}`));
+
+handler$.onValue(v =>
+  logger.log('info', `Got command \`${v.command}\``));
+
+handled$.onValue(v => {
+  logger.log('info', `Handled command \`${v.command}\``);
+  console.log('handled$.onValue:', v);
+});
+
+handled$.onError(({ command, error }) =>
+  logger.log('error', `Error handling command \`${command}\`; type=\`${error.name}\`, message=\`${error.message}\``));
 
 // Methods
 
