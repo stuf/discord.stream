@@ -11,7 +11,6 @@ const V = require('partial.lenses.validation');
 const urlRegex = /mongodb:\/\/\w+:\d+/;
 
 const isNonEmpty = R.identity;
-const isLengthWithin = (min, max) => R.compose(R.both(R.gte(min), R.lte(max)), R.length);
 const isUrl = R.test(urlRegex);
 
 const isRequired = [isNonEmpty, 'required'];
