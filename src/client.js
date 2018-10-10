@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 const { Client } = require('discord.js');
-const S = require('sanctuary');
 const U = require('karet.util');
 const R = require('ramda');
 const K = require('kefir');
@@ -55,8 +53,6 @@ const handleCommandPayload = R.compose(
 
 const createHandledResponse = (command, payload) => ({ command, payload });
 const createHandledError = (command, error) => ({ command, error });
-const handleCommandResponse = (command, payload) =>
-  (payload instanceof Error ? createHandledError : createHandledResponse)(command, payload);
 
 //
 
@@ -129,7 +125,16 @@ handled$.onValue(v => {
 handled$.onError(({ command, error }) =>
   logger.log('error', `Error handling command \`${command}\`; type=\`${error.name}\`, message=\`${error.message}\``));
 
-saveHandled$.log('save handled');
+saveHandled$.observe({
+  value: v => logger.log(
+    'info',
+    `Successfully saved entity; ${JSON.stringify(v, null, 2)}`,
+  ),
+  error: err => logger.log(
+    'error',
+    `Error trying to save entity; ${err.message}`,
+  ),
+});
 
 // Methods
 

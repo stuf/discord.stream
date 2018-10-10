@@ -15,7 +15,6 @@ const isLengthWithin = (min, max) => R.compose(R.both(R.gte(min), R.lte(max)), R
 const isUrl = R.test(urlRegex);
 
 const isRequired = [isNonEmpty, 'required'];
-const isPrefixValidLength = [isLengthWithin(1, 2), 'prefixTooShort'];
 const isValidUrl = [isUrl, 'invalidUrl'];
 
 const envRules = V.propsOr(V.remove, {
