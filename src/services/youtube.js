@@ -6,13 +6,13 @@ const axios = require('axios');
 const { lSet } = require('../shared');
 const { part, endpoint } = require('./youtube.json');
 
-const { GOOGLE_KEY } = process.env;
+const { GOOGLE_KEY: key } = process.env;
 
 //
 
 const createParams = R.compose(
   lSet('params', R.__, {}),
-  R.merge({ part, key: GOOGLE_KEY }),
+  R.merge({ part, key }),
   lSet('id', R.__, {}),
 );
 
