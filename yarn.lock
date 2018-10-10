@@ -1589,6 +1589,10 @@ flatmap-stream@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/flatmap-stream/-/flatmap-stream-0.1.1.tgz#d34f39ef3b9aa5a2fc225016bd3adf28ac5ae6ea"
 
+flatted@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/flatted/-/flatted-1.0.2.tgz#43f615c21f67a578e3e1d2eeee4e68af5e3d7630"
+
 fn-name@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-2.0.1.tgz#5214d7537a4d06a4a301c0cc262feb84188002e7"
@@ -3421,7 +3425,7 @@ sanctuary-show@1.0.0, sanctuary-show@1.0.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sanctuary-show/-/sanctuary-show-1.0.0.tgz#72deb4812f9decec850e03286807dca1c97a1d61"
 
-sanctuary-type-classes@9.0.0, sanctuary-type-classes@9.0.x:
+sanctuary-type-classes@9.0.0, sanctuary-type-classes@9.0.x, sanctuary-type-classes@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/sanctuary-type-classes/-/sanctuary-type-classes-9.0.0.tgz#b44741ca67fa650cbd314e1ad318d730ce1309a4"
   dependencies:

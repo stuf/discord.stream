@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 const { Client } = require('discord.js');
+const S = require('sanctuary');
 const U = require('karet.util');
 const R = require('ramda');
 const K = require('kefir');
@@ -7,7 +9,8 @@ const L = require('partial.lenses');
 const logger = require('./logger');
 const M = require('./meta');
 const Handler = require('./handlers');
-const { show, showWith, B, mkError1, construct0, invoke1 } = require('./shared');
+const { B, mkError1, construct0, invoke1 } = require('./shared');
+const Save = require('./save');
 
 //
 
@@ -52,6 +55,8 @@ const handleCommandPayload = R.compose(
 
 const createHandledResponse = (command, payload) => ({ command, payload });
 const createHandledError = (command, error) => ({ command, error });
+const handleCommandResponse = (command, payload) =>
+  (payload instanceof Error ? createHandledError : createHandledResponse)(command, payload);
 
 //
 
@@ -85,7 +90,11 @@ const handler$ = U.thru(
 
 const handled$ = U.thru(
   handler$,
+
+  // Skip possible null values
   U.skipUnless(R.identity),
+
+  // @todo Replace with a bimap-based version
   U.flatMapLatest(x => {
     const fnRes = handleCommandPayload(x);
     const resFn = U.lift(
@@ -98,10 +107,16 @@ const handled$ = U.thru(
   }),
 );
 
-// Activation
+const hasSaveMethod = response => Save.methods[response.command];
+const hasSaveMethod$ = U.liftRec(hasSaveMethod);
 
-commands$.onValue(v =>
-  logger.log('info', `Got command object: ${JSON.stringify(R.dissoc('message', v))}`));
+const saveHandled$ = U.thru(
+  handled$,
+  U.skipUnless(hasSaveMethod$),
+  U.flatMapLatest(({ command, payload }) => Save.methods[command](payload))
+);
+
+// Activation
 
 handler$.onValue(v =>
   logger.log('info', `Got command \`${v.command}\``));
@@ -113,6 +128,8 @@ handled$.onValue(v => {
 
 handled$.onError(({ command, error }) =>
   logger.log('error', `Error handling command \`${command}\`; type=\`${error.name}\`, message=\`${error.message}\``));
+
+saveHandled$.log('save handled');
 
 // Methods
 

@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "discord.js": "^11.4.2",
     "dotenv": "^6.0.0",
+    "flatted": "^1.0.2",
     "karet": "^4.0.1",
     "karet.util": "^0.19.0",
     "kefir": "^3.8.5",
@@ -23,6 +24,7 @@
     "react": "^16.5.2",
     "sanctuary": "^0.15.0",
     "sanctuary-def": "^0.18.1",
+    "sanctuary-type-classes": "^9.0.0",
     "winston": "^3.1.0"
   },
   "devDependencies": {

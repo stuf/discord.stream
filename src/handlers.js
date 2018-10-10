@@ -1,12 +1,15 @@
+/* eslint-disable no-unused-vars */
+const S = require('sanctuary');
 const U = require('karet.util');
 const R = require('ramda');
 const K = require('kefir');
 const L = require('partial.lenses');
 
 // const logger = require('./logger');
-const { mkUrl1, get1 } = require('./shared');
+const { B, mkUrl1, get1 } = require('./shared');
 const M = require('./meta');
 const Youtube = require('./services/youtube');
+const { Model } = require('./models');
 
 //
 
@@ -30,13 +33,28 @@ const handleLog = (command, args, message) => {
       id = R.pipe(R.prop('pathName'), R.slice(1, Infinity))(url);
     }
 
+    const getVideo = L.get(L.pick({
+      videoId: 'id',
+      videoUrl: 'url',
+      videoTitle: 'title',
+      videoPublishAt: 'publishedAt',
+      videoThumbnailUrl: 'thumbnail',
+    }));
+    const getAuthor = L.get(['author', L.pick({
+      user: 'tag',
+    })]);
+
     return U.thru(
-      id,
+      K.constant(id),
       Youtube.methods.getVideoJson,
       U.mapValue(L.get([
         'data',
         M.Youtube.basicVideoL,
-      ]))
+      ])),
+      U.mapValue(R.compose(
+        response => ({ response, command, message }),
+        response => R.reduce(R.merge, {}, [getVideo(response), getAuthor(message)]),
+      )),
     );
   }
   catch (e) {
