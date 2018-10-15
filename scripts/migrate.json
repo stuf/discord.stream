@@ -1,0 +1,28 @@
+[
+  {
+    "user": "94864749019267072",
+    "type": "scrim",
+    "completed": false,
+    "video": {
+      "id": "Bi7T9r5GTto",
+      "title": "Overwatch Scrim 2018-10-03 - King's Row (Free Cam)",
+      "publishedAt": "2018-10-03T22:53:48.000Z",
+      "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/7e5Y-_Dpyazl3cb1NxnV-IRiMaI\"",
+      "duration": 1195,
+      "player": "\u003ciframe width=\"480\" height=\"270\" src=\"www.youtube.com/embed/Bi7T9r5GTto\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen\u003e\u003c/iframe\u003e"
+    }
+  },
+  {
+    "user": "94864749019267072",
+    "type": "scrim",
+    "completed": false,
+    "video": {
+      "id": "8bdnUvAHWzo",
+      "title": "Overwatch Scrim 2018-10-03 - Ilios (Free Cam)",
+      "publishedAt": "2018-10-03T22:03:16.000Z",
+      "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/Wf0Q2W0HvSK-RYZaFvt1cYUa09o\"",
+      "duration": 1297,
+      "player": "\u003ciframe width=\"480\" height=\"270\" src=\"www.youtube.com/embed/8bdnUvAHWzo\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen\u003e\u003c/iframe\u003e"
+    }
+  }
+]
