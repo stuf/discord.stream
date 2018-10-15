@@ -16,14 +16,14 @@ const createParams = R.compose(
   lSet('id', R.__, {}),
 );
 
-const getVideoJson =
+//
+
+const methods = {};
+
+methods.getVideoJson =
   U.through(
     U.flatMapLatest(x => K.fromPromise(axios.get(endpoint, createParams(x)))),
     U.toProperty,
   );
 
-module.exports.methods = {
-  getVideoJson,
-};
-
-// getVideoJson(K.constant('Bi7T9r5GTto')).map(R.prop('data')).log();
+module.exports.methods = methods;

@@ -5,11 +5,10 @@ const K = require('kefir');
 const L = require('partial.lenses');
 
 const logger = require('./logger');
+const Handlers = require('./handlers');
 const M = require('./meta');
-const Handler = require('./handlers');
 const { B, mkError1, construct0, invoke1 } = require('./shared');
 const Save = require('./save');
-
 //
 
 const {
@@ -33,7 +32,7 @@ const getCommands = U.through(
 );
 
 const commandIsValid = R.compose(
-  R.propSatisfies(R.is(Function), R.__, Handler),
+  R.propSatisfies(R.is(Function), R.__, Handlers.methods),
   R.prop('command'),
 );
 
@@ -80,7 +79,7 @@ const commands$ = getCommands(message$);
 const handler$ = U.thru(
   commands$,
   U.flatMapLatest(R.unless(commandIsValid, K.constantError)),
-  U.flatMapLatest(cmd => L.set('handler', Handler[cmd.command], cmd)),
+  U.flatMapLatest(cmd => L.set('handler', Handlers.methods[cmd.command], cmd)),
   U.flatMapErrors(addPayloadError),
 );
 

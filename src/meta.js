@@ -70,6 +70,13 @@ Youtube.basicVideoL = [
   }),
 ];
 
+Youtube.contentDuration = [
+  'items',
+  L.first,
+  'contentDetails',
+  'duration',
+];
+
 module.exports.Youtube = Youtube;
 
 // Database meta models

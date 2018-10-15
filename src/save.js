@@ -16,9 +16,30 @@ const save$ = model => U.thru(
 
 const methods = {};
 
+/**
+ * @deprecated
+ */
 methods.log = ({ response }) => {
   logger.info('info', 'Saving Log entity');
-  const entity = new Model.Log(response);
+
+  const { user, video } = response;
+  const { thumbnails } = video;
+
+
+  const logObject = {
+    user,
+    video: Object.assign(
+      {},
+      video,
+      {
+        thumbnails: thumbnails.map(t => new Model.VideoThumbnail(t)),
+      },
+    ),
+  };
+
+  const loggableVideo = new Model.Log(logObject);
+
+  const entity = new Model.Log(loggableVideo);
 
   return save$(entity);
 };

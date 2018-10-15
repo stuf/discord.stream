@@ -69,9 +69,12 @@ const B = { bimap, first, second, toBi, toBifunctor };
 const get1 = invoke1('get');
 // #endregion
 
-// #region Built-in constructors
+// #region Basic
 const mkError1 = construct1(Error);
 const mkError2 = construct2(Error);
+
+const parseNum = curry2(parseInt);
+const parseDec = parseNum(R.__, 10);
 // #endregion
 
 // #region Node.js
@@ -136,6 +139,8 @@ module.exports = {
   // Builtins
   mkError1,
   mkError2,
+  parseNum,
+  parseDec,
 
   // Node.js
   mkUrl1,

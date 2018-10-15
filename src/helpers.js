@@ -9,10 +9,16 @@
  * be used in any context but still on a specific data structure should be
  * placed into helpers instead.
  */
+const R = require('ramda');
 const L = require('partial.lenses');
+
+const M = require('./meta');
+
+const { parseDec } = require('./shared');
 
 //
 
+// #region Discord
 const Discord = { Message: {} };
 
 Discord.Message.serialize = L.get(
@@ -39,6 +45,32 @@ Discord.Message.serialize = L.get(
   ),
 );
 
+module.exports.Discord = Discord;
+// #endregion
+
+// #region Youtube
+const Youtube = {};
+
+const durationPatterns = [
+  [/TS/, ''],
+  [/M/, ':'],
+  [/S/, ''],
+];
+
+const multipliers = [1, 60, 24];
+
 //
 
-module.exports.Discord = Discord;
+Youtube.getDuration =
+  R.pipe(R.reduce((rs, [p, t]) => R.replace(p, t, rs), R.__, durationPatterns),
+         R.split(':'),
+         R.map(parseDec),
+         R.reverse,
+         R.zip(multipliers),
+         R.map(R.apply(R.multiply)),
+         R.reduce(R.add, 0));
+// #endregion
+
+//
+
+module.exports.Youtube = Youtube;

@@ -9,6 +9,7 @@ const L = require('partial.lenses');
 const { B, mkUrl1, get1 } = require('./shared');
 const M = require('./meta');
 const Youtube = require('./services/youtube');
+const Help = require('./help/index');
 const { Model } = require('./models');
 
 //
@@ -33,16 +34,26 @@ const handleLog = (command, args, message) => {
       id = R.pipe(R.prop('pathName'), R.slice(1, Infinity))(url);
     }
 
-    const getVideo = L.get(L.pick({
-      videoId: 'id',
-      videoUrl: 'url',
-      videoTitle: 'title',
-      videoPublishAt: 'publishedAt',
-      videoThumbnailUrl: 'thumbnail',
+    const thumbnailL = L.array(L.pick({
+      url: 'url',
+      width: ['width', L.normalize(parseInt)],
+      height: ['height', L.normalize(parseInt)],
     }));
-    const getAuthor = L.get(['author', L.pick({
-      user: 'tag',
-    })]);
+
+    const getThumbnails = L.collect([
+      L.entries,
+      L.reread(([size, thumb]) => Object.assign({}, { size }, thumb)),
+    ]);
+
+    const getVideo = L.get(L.pick({
+      id: 'id',
+      url: 'url',
+      title: 'title',
+      publishedAt: 'publishedAt',
+      thumbnails: ['thumbnail', L.normalize(getThumbnails)],
+    }));
+
+    const getAuthor = L.get(['author', 'tag']);
 
     return U.thru(
       K.constant(id),
@@ -53,8 +64,11 @@ const handleLog = (command, args, message) => {
       ])),
       U.mapValue(R.compose(
         response => ({ response, command, message }),
-        response => R.reduce(R.merge, {}, [getVideo(response), getAuthor(message)]),
-      )),
+        ({ response, command }) =>
+          ({
+            video: getVideo(response),
+            user: getAuthor(message),
+          }))),
     );
   }
   catch (e) {

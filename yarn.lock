@@ -101,6 +101,10 @@
   version "0.25.39"
   resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.39.tgz#7f6ddc0baa6e7f99860e7752dcfbeae5655bf525"
 
+"@types/sanctuary@^0.14.2":
+  version "0.14.2"
+  resolved "http://registry.npmjs.org/@types/sanctuary/-/sanctuary-0.14.2.tgz#115ee27fd40ba2eee31e81592bc799d33ecbca7d"
+
 "@types/winston@^2.4.4":
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/@types/winston/-/winston-2.4.4.tgz#48cc744b7b42fad74b9a2e8490e0112bd9a3d08d"
