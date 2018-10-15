@@ -17,6 +17,7 @@ Schema.VideoSchema = new DBSchema({
   length: { type: Number },
   etag: { type: String },
   player: { type: String },
+  thumbnail: { type: String },
 });
 
 Schema.LogSchema = new DBSchema({
@@ -24,6 +25,7 @@ Schema.LogSchema = new DBSchema({
   createdAt: { type: Date, default: Date.now },
   completed: { type: Boolean, default: false },
   completedAt: { type: Date },
+  logType: { type: String },
   video: Schema.VideoSchema,
 });
 

@@ -31,10 +31,14 @@ const getCommands = U.through(
   U.mapValue(L.get(M.Discord.transformMessageL)),
 );
 
-const commandIsValid = R.compose(
-  R.propSatisfies(R.is(Function), R.__, Handlers.methods),
-  R.prop('command'),
-);
+function commandIsValid(x) {
+  const fn = R.compose(
+    R.propSatisfies(R.is(Function), R.__, Handlers.methods),
+    R.prop('command'),
+  );
+
+  return fn(x);
+}
 
 const addPayloadError = R.compose(
   K.constantError,

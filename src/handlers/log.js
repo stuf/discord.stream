@@ -9,7 +9,7 @@ const Youtube = require('../services/youtube');
 
 module.exports = (command, args, message) => {
   try {
-    const maybeUrl = R.head(args);
+    const [logType, maybeUrl] = args;
     const url = mkUrl1(maybeUrl);
 
     let id;
@@ -21,36 +21,28 @@ module.exports = (command, args, message) => {
     }
 
     // eslint-disable-next-line
-    const thumbnailL = L.array(L.pick({
-      url: 'url',
-      width: ['width', L.normalize(parseInt)],
-      height: ['height', L.normalize(parseInt)],
-    }));
+    // const thumbnailL = L.array(M.Youtube.thubnail);
 
-    const getThumbnails = L.collect([
-      L.entries,
-      L.reread(([size, thumb]) => Object.assign({}, { size }, thumb)),
-    ]);
+    // const getThumbnails = L.collect([
+    //   L.entries,
+    //   L.reread(([size, thumb]) => Object.assign({}, { size }, thumb)),
+    // ]);
 
-    const getVideo = L.get(L.pick({
-      id: 'id',
-      url: 'url',
-      title: 'title',
-      publishedAt: 'publishedAt',
-      thumbnails: ['thumbnail', L.normalize(getThumbnails)],
-    }));
+    const getVideo = R.identity;
+    const getAuthor = L.get(['author', 'id']);
 
-    const getAuthor = L.get(['author', 'tag']);
+    const payload = { command, message };
 
     return U.thru(
       K.constant(id),
       Youtube.methods.getVideoJson,
+      U.show,
       U.mapValue(L.get([
         'data',
         M.Youtube.basicVideoL,
       ])),
-      U.mapValue(R.compose(
-        response => ({ response, command, message }),
+      U.mapValue(R.pipe(
+        R.assoc('response', R.__, payload),
         // eslint-disable-next-line
         ({ response, command }) =>
           ({

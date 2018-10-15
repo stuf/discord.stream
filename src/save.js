@@ -19,29 +19,34 @@ const methods = {};
 /**
  * @deprecated
  */
-methods.log = ({ response }) => {
+methods.log = ({ user, video }) => {
   logger.info('info', 'Saving Log entity');
 
-  const { user, video } = response;
-  const { thumbnails } = video;
-
-
-  const logObject = {
+  const _log = new Model.Log({
+    logType: 'scrim',
     user,
-    video: Object.assign(
-      {},
-      video,
-      {
-        thumbnails: thumbnails.map(t => new Model.VideoThumbnail(t)),
-      },
-    ),
-  };
+    video,
+  });
 
-  const loggableVideo = new Model.Log(logObject);
+  // const { thumbnails } = video;
 
-  const entity = new Model.Log(loggableVideo);
 
-  return save$(entity);
+  // const logObject = {
+  //   user,
+  //   video: Object.assign(
+  //     {},
+  //     video,
+  //     {
+  //       thumbnails: thumbnails.map(t => new Model.VideoThumbnail(t)),
+  //     },
+  //   ),
+  // };
+
+  // const loggableVideo = new Model.Log(logObject);
+
+  // const entity = new Model.Log(loggableVideo);
+
+  return save$(_log);
 };
 
 //

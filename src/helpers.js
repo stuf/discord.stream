@@ -12,8 +12,6 @@
 const R = require('ramda');
 const L = require('partial.lenses');
 
-const M = require('./meta');
-
 const { parseDec } = require('./shared');
 
 //
@@ -52,7 +50,7 @@ module.exports.Discord = Discord;
 const Youtube = {};
 
 const durationPatterns = [
-  [/TS/, ''],
+  [/PT/, ''],
   [/M/, ':'],
   [/S/, ''],
 ];

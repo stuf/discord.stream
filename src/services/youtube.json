@@ -1,4 +1,4 @@
 {
-  "part": "id,snippet",
+  "part": "id,snippet,contentDetails,statistics,player",
   "endpoint": "https://www.googleapis.com/youtube/v3/videos"
 }

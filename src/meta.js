@@ -1,6 +1,7 @@
 const R = require('ramda');
 const L = require('partial.lenses');
 
+const H = require('./helpers');
 const { invoke0, construct1 } = require('./shared');
 
 // Generic
@@ -47,6 +48,12 @@ Discord.transformMessageL = L.pick({
 
 const Youtube = {};
 
+Youtube.thumbnail = L.pick({
+  url: 'url',
+  width: ['width', L.normalize(parseInt)],
+  height: ['height', L.normalize(parseInt)],
+});
+
 Youtube.basicVideoL = [
   'items',
   L.first,
@@ -60,13 +67,10 @@ Youtube.basicVideoL = [
       'snippet',
       'title',
     ],
+    etag: 'etag',
+    length: ['contentDetails', 'duration', L.valueOr(''), L.normalize(H.Youtube.getDuration)],
     publishedAt: ['snippet', 'publishedAt', L.normalize(construct1(Date))],
-    thumbnail: [
-      'snippet',
-      'thumbnails',
-      'maxres',
-      'url',
-    ],
+    player: ['player', 'embedHtml'],
   }),
 ];
 
