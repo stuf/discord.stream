@@ -1,11 +1,19 @@
 module.exports = {
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+  ],
   "env": {
       "node": true,
       "es6": true
   },
+  "plugins": [
+    "import",
+  ],
   "parserOptions": {
-      "ecmaVersion": 2017
+      "ecmaVersion": 2017,
+      "sourceType": "module",
   },
   "rules": {
       "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
@@ -26,6 +34,7 @@ module.exports = {
       "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
       "no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
       "no-trailing-spaces": ["error"],
+      "no-unexpected-multiline": ["off"],
       "no-var": "error",
       "object-curly-spacing": ["error", "always"],
       "prefer-const": "error",

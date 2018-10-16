@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "delay": 10,
+  "execMap": {
+    "js": "node --experimental-modules"
+  }
+}

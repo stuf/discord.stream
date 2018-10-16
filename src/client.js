@@ -1,3 +1,11 @@
+/**
+ * Discord client -related functionality
+ *
+ * Creates observable Properties out of commonly used Discord
+ * events to allow handling these in a reactive way.
+ *
+ * @todo Extract command handling and pipeline to their own files
+ */
 const { Client } = require('discord.js');
 const U = require('karet.util');
 const R = require('ramda');
@@ -45,6 +53,7 @@ const addPayloadError = R.compose(
   R.assoc('error', mkError1('No suitable handler found for command.')),
 );
 
+/** @deprecated */
 const handleCommandPayload = R.compose(
   R.apply(R.apply),
   B.bimap(
@@ -54,11 +63,15 @@ const handleCommandPayload = R.compose(
   B.toBi,
 );
 
+/** @deprecated */
 const createHandledResponse = (command, payload) => ({ command, payload });
+
+/** @deprecated */
 const createHandledError = (command, error) => ({ command, error });
 
 //
 
+// #region Initialize client and expose messages
 const getClient = construct0(Client);
 const connect = invoke1('login');
 
@@ -66,6 +79,7 @@ const client = getClient();
 
 const message$ = K.fromEvents(client, 'message').toProperty();
 const ready$ = K.fromEvents(client, 'ready').toProperty();
+// #endregion
 
 //
 
@@ -89,11 +103,9 @@ const handler$ = U.thru(
 
 const handled$ = U.thru(
   handler$,
-
-  // Skip possible null values
   U.skipUnless(R.identity),
 
-  // @todo Replace with a bimap-based version
+  // @todo Replace with a bimap-based version or lift values into a Property
   U.flatMapLatest(x => {
     const fnRes = handleCommandPayload(x);
     const resFn = U.lift(
