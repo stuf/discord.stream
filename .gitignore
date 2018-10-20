@@ -6,3 +6,6 @@ node_modules/
 
 scripts/rest/
 *.log
+
+src/bnf/*.js
+grammar/*.js
