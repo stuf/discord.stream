@@ -6,6 +6,8 @@
   "scripts": {
     "start": "env-cmd .env.local nodemon start.js",
     "debug": "env-cmd .env.local nodemon --inspect start.js",
+    "build": "npm run build:grammar",
+    "build:grammar": "scripts/compile-grammar.sh command",
     "lint": "eslint src"
   },
   "dependencies": {
@@ -17,7 +19,11 @@
     "karet": "^4.0.1",
     "karet.util": "^0.19.0",
     "kefir": "^3.8.5",
+    "kefir.partial.lenses": "^14.11.0",
+    "kefir.ramda": "^0.25.6",
     "mongoose": "^5.3.2",
+    "moo": "^0.4.3",
+    "nearley": "^2.15.1",
     "nodemon": "^1.18.4",
     "partial.lenses": "^14.10.0",
     "partial.lenses.validation": "^2.0.0",
